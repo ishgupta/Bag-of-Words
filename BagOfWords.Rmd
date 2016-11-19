@@ -1,0 +1,46 @@
+---
+title: "Bag of Words"
+output: html_notebook
+---
+
+```{r, message=FALSE}
+library(qdap)
+library(tm)
+```
+
+```{r}
+
+data <- read.table("../BagOfWordsdata/unlabeledTrainData.tsv", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+data <- data$review
+class(data)
+
+source <- VectorSource(data)
+corpus <- VCorpus(source)
+
+clean_corpus <- function(x){
+  x <- tolower(x)
+  x <- removeWords(x, stopwords("en"))
+  x <- stripWhitespace(x)
+  x <- removePunctuation(x)
+  return (x)
+}
+
+tm_clean <- function(corpus){
+    corpus <- tm_map(corpus, removePunctuation)
+    corpus <- tm_map(corpus, stripWhitespace)
+    corpus <- tm_map(corpus, removeWords, stopwords("en"))
+    return(corpus)
+  }
+
+
+#corpus <- removeWords(corpus, stopwords("en"))
+corpus <- tm_clean(corpus)
+
+corpus_tdm <- TermDocumentMatrix(corpus)
+
+corpus_tdm_m <- as.matrix(corpus_tdm)
+
+corpus_tdm_m <- rowSums(corpus_tdm_m)
+```
+
