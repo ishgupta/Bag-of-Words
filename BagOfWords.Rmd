@@ -3,6 +3,10 @@ title: "Bag of Words"
 output: html_notebook
 ---
 
+
+# Bag of Words on Reviews provided on IMDB.
+Source: https://www.kaggle.com/c/word2vec-nlp-tutorial/details/part-1-for-beginners-bag-of-words
+
 ```{r, message=FALSE}
 library(qdap)
 library(tm)
@@ -33,14 +37,14 @@ tm_clean <- function(corpus){
     return(corpus)
   }
 
-
-#corpus <- removeWords(corpus, stopwords("en"))
 corpus <- tm_clean(corpus)
 
+# transform the Corpus into a TDM. So as to gather different term occurences.
 corpus_tdm <- TermDocumentMatrix(corpus)
 
+# convert the TDM into a Matrix.
 corpus_tdm_m <- as.matrix(corpus_tdm)
 
-corpus_tdm_m <- rowSums(corpus_tdm_m)
+#corpus_tdm_m <- rowSums(corpus_tdm_m)
 ```
 
